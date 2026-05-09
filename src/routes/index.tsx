@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Volume2, Play, Star, Sparkles, Trophy, Home, Gamepad2 } from "lucide-react";
 import mascot from "@/assets/mascot.png";
-import letters from "@/assets/letters.png";
+import letterBuddies from "@/assets/letter-buddies-bg.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
