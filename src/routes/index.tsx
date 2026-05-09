@@ -67,18 +67,8 @@ function Index() {
       <section className="relative max-w-7xl mx-auto px-4 sm:px-8 pt-6 pb-20">
         {/* Playful letter-buddies pattern behind everything */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <img
-            src={letterBuddies}
-            alt=""
-            className="absolute -top-10 -left-10 w-[60%] opacity-25 sm:opacity-30 animate-float"
-            style={{ animationDuration: "6s" }}
-          />
-          <img
-            src={letterBuddies}
-            alt=""
-            className="absolute bottom-0 -right-16 w-[55%] opacity-20 sm:opacity-25 -scale-x-100 animate-float"
-            style={{ animationDuration: "7s", animationDelay: "1.2s" }}
-          />
+
+          
         </div>
         <div className="relative grid lg:grid-cols-2 gap-8 items-center">
           <div className="order-2 lg:order-1 text-center lg:text-left">
