@@ -65,7 +65,22 @@ function Index() {
 
       {/* HERO */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-8 pt-6 pb-20">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
+        {/* Playful letter-buddies pattern behind everything */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <img
+            src={letterBuddies}
+            alt=""
+            className="absolute -top-10 -left-10 w-[60%] opacity-25 sm:opacity-30 animate-float"
+            style={{ animationDuration: "6s" }}
+          />
+          <img
+            src={letterBuddies}
+            alt=""
+            className="absolute bottom-0 -right-16 w-[55%] opacity-20 sm:opacity-25 -scale-x-100 animate-float"
+            style={{ animationDuration: "7s", animationDelay: "1.2s" }}
+          />
+        </div>
+        <div className="relative grid lg:grid-cols-2 gap-8 items-center">
           <div className="order-2 lg:order-1 text-center lg:text-left">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-5" style={{ background: "var(--cheerful-yellow)", color: "var(--bukvozhder-blue)" }}>
               <Sparkles className="w-4 h-4" /> За деца од 3 до 8 години
