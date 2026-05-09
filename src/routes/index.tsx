@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Volume2, Play, Star, Sparkles, Trophy, Home, Gamepad2 } from "lucide-react";
 import mascot from "@/assets/mascot.png";
-import letters from "@/assets/letters.png";
+import letterBuddies from "@/assets/letter-buddies-bg.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -65,7 +65,22 @@ function Index() {
 
       {/* HERO */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-8 pt-6 pb-20">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
+        {/* Playful letter-buddies pattern behind everything */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <img
+            src={letterBuddies}
+            alt=""
+            className="absolute -top-10 -left-10 w-[60%] opacity-25 sm:opacity-30 animate-float"
+            style={{ animationDuration: "6s" }}
+          />
+          <img
+            src={letterBuddies}
+            alt=""
+            className="absolute bottom-0 -right-16 w-[55%] opacity-20 sm:opacity-25 -scale-x-100 animate-float"
+            style={{ animationDuration: "7s", animationDelay: "1.2s" }}
+          />
+        </div>
+        <div className="relative grid lg:grid-cols-2 gap-8 items-center">
           <div className="order-2 lg:order-1 text-center lg:text-left">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-5" style={{ background: "var(--cheerful-yellow)", color: "var(--bukvozhder-blue)" }}>
               <Sparkles className="w-4 h-4" /> За деца од 3 до 8 години
@@ -101,70 +116,20 @@ function Index() {
             {/* Soft sun glow */}
             <div className="absolute inset-0 rounded-full blur-3xl opacity-60" style={{ background: "var(--gradient-sun)" }} />
 
-            {/* Floating letter buddies background */}
-            <div aria-hidden className="absolute inset-0 pointer-events-none">
-              {[
-                { ch: "А", color: "var(--warm-red)",        top: "4%",  left: "8%",  size: 56, delay: "0s",   dur: "4.2s", rot: -8 },
-                { ch: "Б", color: "var(--cheerful-yellow)", top: "12%", left: "78%", size: 64, delay: "0.6s", dur: "5s",   rot: 10 },
-                { ch: "В", color: "var(--light-green)",     top: "32%", left: "2%",  size: 48, delay: "1.1s", dur: "4.6s", rot: 6  },
-                { ch: "Г", color: "var(--sky-blue)",        top: "68%", left: "84%", size: 52, delay: "0.3s", dur: "5.4s", rot: -10 },
-                { ch: "Д", color: "var(--bukvozhder-blue)", top: "82%", left: "12%", size: 60, delay: "1.4s", dur: "4.8s", rot: 8  },
-                { ch: "Е", color: "var(--warm-red)",        top: "55%", left: "92%", size: 42, delay: "0.9s", dur: "4.4s", rot: -6 },
-                { ch: "Ж", color: "var(--cheerful-yellow)", top: "90%", left: "62%", size: 50, delay: "0.2s", dur: "5.2s", rot: 12 },
-                { ch: "З", color: "var(--light-green)",     top: "2%",  left: "44%", size: 46, delay: "1.7s", dur: "4.6s", rot: -4 },
-                { ch: "И", color: "var(--sky-blue)",        top: "46%", left: "-2%", size: 44, delay: "0.5s", dur: "5s",   rot: 9  },
-                { ch: "Ј", color: "var(--bukvozhder-blue)", top: "22%", left: "92%", size: 40, delay: "1.2s", dur: "4.8s", rot: -12 },
-                { ch: "К", color: "var(--warm-red)",        top: "76%", left: "38%", size: 38, delay: "0.7s", dur: "5.2s", rot: 7  },
-                { ch: "Л", color: "var(--cheerful-yellow)", top: "38%", left: "70%", size: 36, delay: "1.5s", dur: "4.4s", rot: -9 },
-              ].map((l, i) => (
-                <div
-                  key={i}
-                  className="absolute animate-float select-none"
-                  style={{
-                    top: l.top,
-                    left: l.left,
-                    width: l.size,
-                    height: l.size,
-                    animationDelay: l.delay,
-                    animationDuration: l.dur,
-                    transform: `rotate(${l.rot}deg)`,
-                  }}
-                >
-                  <div
-                    className="relative w-full h-full rounded-2xl flex items-center justify-center font-display font-extrabold text-white"
-                    style={{
-                      background: l.color,
-                      fontSize: l.size * 0.55,
-                      boxShadow: "0 6px 0 0 oklch(0 0 0 / 0.18), 0 10px 20px -8px oklch(0 0 0 / 0.25)",
-                    }}
-                  >
-                    {l.ch}
-                    {/* eyes */}
-                    <span className="absolute" style={{ top: "22%", left: "20%", width: l.size * 0.13, height: l.size * 0.13, background: "#fff", borderRadius: "50%" }}>
-                      <span className="block rounded-full bg-foreground" style={{ width: "55%", height: "55%", margin: "22% auto 0" }} />
-                    </span>
-                    <span className="absolute" style={{ top: "22%", right: "20%", width: l.size * 0.13, height: l.size * 0.13, background: "#fff", borderRadius: "50%" }}>
-                      <span className="block rounded-full bg-foreground" style={{ width: "55%", height: "55%", margin: "22% auto 0" }} />
-                    </span>
-                    {/* smile */}
-                    <span
-                      className="absolute"
-                      style={{
-                        bottom: "18%",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: l.size * 0.32,
-                        height: l.size * 0.18,
-                        borderBottom: `${Math.max(2, l.size * 0.06)}px solid #fff`,
-                        borderRadius: "0 0 999px 999px",
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Letter buddies floating behind the mascot */}
+            <img
+              src={letterBuddies}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 w-full h-full object-contain opacity-90 animate-float"
+              style={{ animationDuration: "5.5s" }}
+            />
 
-            <img src={mascot} alt="Бушавото маскоте" className="relative z-10 w-72 sm:w-96 lg:w-[28rem] animate-float drop-shadow-2xl" />
+            <img
+              src={mascot}
+              alt="Бушавото маскоте"
+              className="relative z-10 w-72 sm:w-96 lg:w-[28rem] animate-float drop-shadow-2xl"
+            />
           </div>
         </div>
       </section>
