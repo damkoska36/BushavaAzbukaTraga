@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;600;700;800&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -62,9 +63,24 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 1.25rem;
+  /* Bushava Universe palette */
+  --bushava-orange: oklch(0.72 0.19 45);     /* #FF6B35 */
+  --bukvozhder-blue: oklch(0.38 0.15 250);   /* #004E89 */
+  --cheerful-yellow: oklch(0.89 0.17 92);    /* #FFD23F */
+  --warm-red: oklch(0.65 0.22 22);           /* #EE4266 */
+  --light-green: oklch(0.72 0.18 145);       /* #4CAF50 */
+  --sky-blue: oklch(0.78 0.12 240);          /* #64B5F6 */
+  --cream: oklch(0.98 0.02 85);
+
+  --gradient-sky: linear-gradient(180deg, oklch(0.95 0.05 230), oklch(0.97 0.04 90));
+  --gradient-sun: radial-gradient(circle at 50% 30%, var(--cheerful-yellow), transparent 60%);
+  --gradient-play: linear-gradient(135deg, var(--bushava-orange), var(--warm-red));
+  --shadow-soft: 0 12px 40px -8px oklch(0.72 0.19 45 / 0.45);
+  --shadow-card: 0 8px 0 0 oklch(0 0 0 / 0.12);
+
+  --background: var(--cream);
+  --foreground: oklch(0.25 0.08 260);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
@@ -132,13 +148,61 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-@layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-  }
+@theme inline {
+  --color-bushava: var(--bushava-orange);
+  --color-bukvozhder: var(--bukvozhder-blue);
+  --color-cheer: var(--cheerful-yellow);
+  --color-warm: var(--warm-red);
+  --color-leaf: var(--light-green);
+  --color-sky: var(--sky-blue);
+  --font-display: "Baloo 2", "Fredoka", system-ui, sans-serif;
+  --font-body: "Fredoka", system-ui, sans-serif;
 }
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body {
+    background:
+      radial-gradient(circle at 10% 10%, oklch(0.89 0.17 92 / 0.35), transparent 40%),
+      radial-gradient(circle at 90% 20%, oklch(0.78 0.12 240 / 0.35), transparent 40%),
+      radial-gradient(circle at 50% 100%, oklch(0.72 0.19 45 / 0.18), transparent 50%),
+      var(--cream);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+}
+
+@layer utilities {
+  .btn-pop {
+    box-shadow: 0 8px 0 0 oklch(0 0 0 / 0.18);
+    transition: transform 150ms ease, box-shadow 150ms ease;
+  }
+  .btn-pop:hover { transform: translateY(-2px); box-shadow: 0 10px 0 0 oklch(0 0 0 / 0.22); }
+  .btn-pop:active { transform: translateY(4px); box-shadow: 0 2px 0 0 oklch(0 0 0 / 0.18); }
+
+  .card-pop {
+    box-shadow: 0 10px 0 0 oklch(0 0 0 / 0.12), 0 20px 40px -20px oklch(0.25 0.08 260 / 0.4);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .card-pop:hover { transform: translateY(-6px) rotate(-1deg); }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  .animate-wiggle { animation: wiggle 2.5s ease-in-out infinite; }
+
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  .animate-float { animation: float-y 4s ease-in-out infinite; }
+
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 oklch(0.72 0.19 45 / 0.6); }
+    100% { box-shadow: 0 0 0 40px oklch(0.72 0.19 45 / 0); }
+  }
+  .animate-pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+}
+
