@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Volume2, Play, Star, Sparkles, Trophy, Home, Gamepad2 } from "lucide-react";
-import bushavaLogo from "@/assets/bushava-azbuka-logo-cropped.png";
+import bushavaIgrotekaHero from "@/assets/bushava-igroteka-hero.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -127,7 +127,7 @@ function Index() {
             </div>
           </div>
 
-          <div className="order-2 lg:order-2 relative flex items-center justify-center min-h-[28rem] lg:-translate-y-6">
+          <div className="group order-2 lg:order-2 relative flex items-center justify-center min-h-[24rem] sm:min-h-[28rem] lg:min-h-[34rem] lg:-translate-y-4">
             {/* Soft sun glow */}
             <div
               className="absolute inset-0 rounded-full blur-3xl opacity-60"
@@ -135,9 +135,9 @@ function Index() {
             />
 
             <img
-              src={bushavaLogo}
-              alt="Бушава Азбука лого"
-              className="relative z-10 w-full max-w-[520px] lg:max-w-[450px] h-auto object-contain drop-shadow-2xl"
+              src={bushavaIgrotekaHero}
+              alt="Бушава Игротека"
+              className="hero-illustration relative z-10 w-full max-w-[440px] sm:max-w-[540px] lg:max-w-[640px] h-auto object-contain"
             />
           </div>
         </div>

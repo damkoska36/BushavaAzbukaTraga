@@ -1,10 +1,11 @@
-import type { CSSProperties } from "react";
+﻿import type { CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
-import { PawPrint, Play, Sparkles, Volume2, RefreshCcw, Pencil } from "lucide-react";
+import { PawPrint, Play, Sparkles, Lock, ArrowRight, CheckCircle2, Trophy } from "lucide-react";
+import { BusavaTragaGameSection } from "@/components/BusavaTragaGameSection";
 
 const navItems = [
   { label: "Како се игра", id: "how-to" },
-  { label: "Преглед", id: "preview" },
+  { label: "Пробај", id: "tracing" },
   { label: "Награди", id: "rewards" },
 ] as const;
 
@@ -1268,6 +1269,12 @@ const rewardCards = [
     tone: "#FFD23F",
     icon: "🐾",
     description: "Отклучи ја првата значка кога успешно ќе ја следиш патеката на буквата.",
+    unlocked: true,
+    gradient: "linear-gradient(145deg, #FFF7CB 0%, #FFE18A 100%)",
+    iconBg: "linear-gradient(145deg, #FFE27B 0%, #FFC95B 100%)",
+    iconColor: "#7A4D00",
+    glow: "rgba(255, 211, 92, 0.42)",
+    shadow: "rgba(235, 174, 63, 0.28)",
   },
   {
     label: "Храбра трага",
@@ -1275,12 +1282,24 @@ const rewardCards = [
     icon: "✏️",
     description:
       "Освој ја оваа значка кога внимателно ќе ја нацрташ буквата без да излезеш од линијата.",
+    unlocked: true,
+    gradient: "linear-gradient(145deg, #FFD8EB 0%, #FFB7D0 100%)",
+    iconBg: "linear-gradient(145deg, #FF9FC2 0%, #FF7FAF 100%)",
+    iconColor: "#7E234A",
+    glow: "rgba(255, 141, 189, 0.38)",
+    shadow: "rgba(255, 120, 170, 0.24)",
   },
   {
     label: "Азбучен истражувач",
     tone: "#64B5F6",
     icon: "⭐",
     description: "Собери повеќе букви и отклучи специјална награда за твојот труд.",
+    unlocked: false,
+    gradient: "linear-gradient(145deg, #DDF5FF 0%, #BDE8FF 100%)",
+    iconBg: "linear-gradient(145deg, #88D9FF 0%, #61BFFF 100%)",
+    iconColor: "#0E4A78",
+    glow: "rgba(122, 211, 255, 0.38)",
+    shadow: "rgba(84, 176, 255, 0.22)",
   },
 ] as const;
 
@@ -1316,7 +1335,8 @@ function BackgroundLetter({
           bottom,
           fontSize: size,
           color,
-          opacity,
+          opacity: opacity * 0.38,
+          filter: "blur(0.6px)",
           "--rotate": rotate,
           "--rotate-mid": rotateMid,
           "--move-x": moveX,
@@ -1359,7 +1379,7 @@ function BackgroundPaw({
           width: size,
           height: size,
           color,
-          opacity,
+          opacity: opacity * 0.52,
           "--rotate": rotate,
           "--rotate-mid": rotateMid,
           "--move-x": moveX,
@@ -1374,6 +1394,8 @@ function BackgroundPaw({
 }
 
 export function BusavaTragaPage() {
+  const unlockedRewards = rewardCards.filter((reward) => reward.unlocked).length;
+
   return (
     <main
       className="busava-traga-page min-h-screen overflow-x-hidden text-[#252946]"
@@ -1443,7 +1465,7 @@ export function BusavaTragaPage() {
 
             <button
               type="button"
-              onClick={() => scrollToSection("preview")}
+              onClick={() => scrollToSection("tracing")}
               className="inline-flex min-h-12 items-center justify-center rounded-full px-7 py-3 text-[15px] font-extrabold text-white shadow-[0_18px_34px_rgba(255,107,53,0.28)] transition-transform hover:-translate-y-0.5"
               style={{ backgroundColor: "#FF6B35" }}
             >
@@ -1480,7 +1502,7 @@ export function BusavaTragaPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <button
                 type="button"
-                onClick={() => scrollToSection("how-to")}
+                onClick={() => scrollToSection("tracing")}
                 className="inline-flex min-h-[58px] items-center justify-center gap-3 rounded-[22px] px-6 py-3.5 text-base font-extrabold text-white shadow-[0_18px_36px_rgba(63,162,246,0.30)] transition-transform hover:-translate-y-1"
                 style={{ backgroundColor: "#3FA2F6" }}
               >
@@ -1591,168 +1613,184 @@ export function BusavaTragaPage() {
 
           <section
             id="rewards"
-            className="mt-6 rounded-[2.5rem] border border-white/65 bg-[linear-gradient(135deg,rgba(106,15,61,0.92),rgba(0,43,91,0.92))] p-6 text-white shadow-[0_28px_80px_rgba(37,41,70,0.14)] sm:p-8"
+            className="relative mt-6 overflow-hidden rounded-[2.8rem] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.38),rgba(250,247,255,0.28))] p-1 shadow-[0_30px_90px_rgba(37,41,70,0.14)]"
           >
-            <div className="flex flex-col gap-4">
-              <div>
-                <p className="text-sm font-bold uppercase tracking-[0.18em] text-white/65">
-                  Награди
-                </p>
-                <h2 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">
-                  Мали значки за големи трагачи
-                </h2>
-              </div>
-              <p className="max-w-[28rem] text-base leading-7 text-white/78">
-                Секој внимателен потег носи нова пофалба, срце и бушава значка што ја прави играта
-                уште повесела.
-              </p>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,230,148,0.26),transparent_24%),radial-gradient(circle_at_top_right,rgba(132,215,255,0.24),transparent_28%),radial-gradient(circle_at_bottom,rgba(255,175,206,0.22),transparent_32%)]" />
+            <div className="pointer-events-none absolute left-[3%] top-[14%] hidden rounded-full bg-white/14 p-3 text-white/65 shadow-[0_10px_28px_rgba(255,255,255,0.12)] lg:block">
+              <PawPrint className="h-5 w-5" />
+            </div>
+            <div className="pointer-events-none absolute right-[6%] top-[10%] hidden rounded-full bg-white/14 p-3 text-white/65 shadow-[0_10px_28px_rgba(255,255,255,0.12)] lg:block">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <div className="pointer-events-none absolute bottom-[12%] right-[10%] hidden rounded-full bg-white/12 p-3 text-white/55 shadow-[0_10px_28px_rgba(255,255,255,0.10)] lg:block">
+              <PawPrint className="h-4 w-4" />
             </div>
 
-            <div className="mt-7 grid gap-4 md:grid-cols-3">
-              {rewardCards.map((reward) => (
-                <article
-                  key={reward.label}
-                  className="rounded-[1.8rem] border border-white/16 bg-white/14 p-5 backdrop-blur-md"
-                >
-                  <span
-                    className="mb-7 inline-flex h-[76px] w-[76px] items-center justify-center rounded-full shadow-[0_12px_28px_rgba(0,0,0,0.12)]"
+            <div className="relative rounded-[calc(2.8rem-4px)] border border-white/45 bg-[linear-gradient(145deg,rgba(106,15,61,0.88),rgba(42,95,168,0.90)_52%,rgba(101,189,255,0.78))] p-6 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.24)] sm:p-8">
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(16rem,0.75fr)] lg:items-start">
+                <div>
+                  <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/12 px-4 py-2 shadow-[0_12px_30px_rgba(24,36,73,0.14)]">
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(145deg,#FFE27A,#FFB84D)] text-[#7A4300] shadow-[0_14px_28px_rgba(255,190,89,0.35)]">
+                      <Trophy className="h-5 w-5" />
+                    </span>
+                    <span className="text-sm font-extrabold uppercase tracking-[0.18em] text-white/88">
+                      Собирај значки
+                    </span>
+                  </div>
+
+                  <h2 className="mt-5 max-w-[24rem] font-display text-[2.35rem] font-extrabold leading-[1.02] text-white sm:text-[3rem]">
+                    Мали значки за големи трагачи
+                  </h2>
+                  <p className="mt-4 max-w-[34rem] text-[1.02rem] leading-7 text-white/78 sm:text-[1.08rem]">
+                    Секој внимателен потег носи нова пофалба, срце и бушава значка што ја прави играта уште повесела.
+                  </p>
+                </div>
+
+                <div className="rounded-[2rem] border border-white/20 bg-white/12 p-5 shadow-[0_18px_40px_rgba(24,36,73,0.14)] backdrop-blur-md">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/60">Отклучено</p>
+                      <p className="mt-2 font-display text-3xl font-extrabold text-white">
+                        {unlockedRewards} / {rewardCards.length}
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-white/16 px-3 py-1 text-xs font-extrabold text-white/88 shadow-sm">
+                      Ново ниво
+                    </span>
+                  </div>
+
+                  <div className="mt-5 overflow-hidden rounded-full bg-white/14 p-1.5 shadow-[inset_0_2px_5px_rgba(0,0,0,0.12)]">
+                    <div
+                      className="h-3 rounded-full bg-[linear-gradient(90deg,#FFE27B_0%,#FF9EC4_46%,#8AD9FF_100%)] shadow-[0_0_26px_rgba(255,226,123,0.30)]"
+                      style={{ width: `${(unlockedRewards / rewardCards.length) * 100}%` }}
+                    />
+                  </div>
+
+                  <p className="mt-4 text-sm leading-6 text-white/72">
+                    Продолжи да играш за да ги отклучиш сите награди и да ја наполниш витрината со бушави значки.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-8 grid gap-5 md:grid-cols-3">
+                {rewardCards.map((reward) => (
+                  <article
+                    key={reward.label}
+                    className="group relative h-full rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:scale-[1.015]"
                     style={{
-                      backgroundColor: reward.tone,
-                      color: reward.tone === "#FFD23F" ? "#252946" : "#fff",
+                      background: `linear-gradient(180deg, rgba(255,255,255,0.92), ${reward.glow})`,
+                      boxShadow: `0 22px 44px ${reward.shadow}`,
                     }}
                   >
-                    <span className="text-[34px] leading-none">{reward.icon}</span>
-                  </span>
-                  <h3 className="font-display text-[30px] font-extrabold leading-[1.2]">
-                    {reward.label}
-                  </h3>
-                  <p className="mt-3 text-[18px] leading-7 text-white/78">
-                    {reward.description}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </section>
+                    <div
+                      className="relative flex h-full min-h-[21.5rem] flex-col rounded-[calc(2rem-1px)] border border-white/60 px-6 py-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]"
+                      style={{ background: reward.gradient }}
+                    >
+                      <div className="absolute inset-x-6 top-0 h-20 rounded-b-[2rem] bg-white/25 blur-2xl" />
 
-          <section className="mt-10 rounded-[2.5rem] border border-white/70 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.8),_rgba(222,241,255,0.9))] p-6 text-slate-900 shadow-[0_28px_80px_rgba(37,41,70,0.12)] sm:p-8">
-            <div className="mx-auto max-w-4xl text-center">
-              <p className="inline-flex rounded-full border border-slate-300/80 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 shadow-sm">
-                Поглед во играта
-              </p>
-              <h2 className="mt-4 font-display text-3xl font-extrabold text-slate-950 sm:text-4xl">
-                Цртај по бушавата трага ✨
-              </h2>
-            </div>
+                      <div className="relative flex items-start justify-between gap-4">
+                        <span
+                          className="inline-flex h-[5.8rem] w-[5.8rem] items-center justify-center rounded-full text-[2.4rem] shadow-[0_18px_36px_rgba(37,41,70,0.16)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110 group-hover:rotate-3"
+                          style={{
+                            background: reward.iconBg,
+                            color: reward.iconColor,
+                            boxShadow: `0 0 0 10px rgba(255,255,255,0.38), 0 20px 38px ${reward.glow}`,
+                          }}
+                        >
+                          <span className="leading-none">{reward.icon}</span>
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-extrabold shadow-sm ${
+                            reward.unlocked
+                              ? "bg-white/70 text-[#7A3D12]"
+                              : "bg-white/55 text-[#54657E]"
+                          }`}
+                        >
+                          {reward.unlocked ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
+                          {reward.unlocked ? "Отклучена" : "Заклучена"}
+                        </span>
+                      </div>
 
-            <div className="mt-8 rounded-[2rem] bg-white/90 p-5 shadow-[0_20px_50px_rgba(37,41,70,0.08)] sm:p-6">
-              <div className="flex flex-col gap-4 rounded-[1.75rem] bg-gradient-to-r from-[#F8F3FF] via-[#EAF5FF] to-[#FFF7E5] p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.75)] sm:flex-row sm:items-center sm:justify-between">
-                <div className="inline-flex items-center gap-3 rounded-2xl bg-white/90 px-4 py-3 shadow-[0_10px_24px_rgba(37,41,70,0.06)]">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FCE8FF] text-[#6A0F3D] shadow-sm">
-                    <Sparkles className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Напредок</p>
-                    <p className="text-base font-semibold text-slate-900">3 / 5</p>
-                  </div>
-                </div>
+                      <div className="relative mt-7 flex flex-1 flex-col">
+                        <h3 className="font-display text-[2rem] font-extrabold leading-[1.08] text-[#173D6B]">
+                          {reward.label}
+                        </h3>
+                        <p className="mt-4 text-[1rem] leading-7 text-[#4E6480]">
+                          {reward.description}
+                        </p>
 
-                <div className="flex-1">
-                  <div className="overflow-hidden rounded-full bg-white/60 p-1 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)]">
-                    <div className="h-3 rounded-full bg-gradient-to-r from-[#64B5F6] via-[#7C4DFF] to-[#FFD23F]" style={{ width: "62%" }} />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-end gap-3">
-                  <button className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-[0_14px_30px_rgba(37,41,70,0.08)] transition hover:-translate-y-0.5">
-                    <Volume2 className="h-5 w-5 text-slate-700" />
-                  </button>
-                  <button className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-[0_14px_30px_rgba(37,41,70,0.08)] transition hover:-translate-y-0.5">
-                    <RefreshCcw className="h-5 w-5 text-slate-700" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-[2rem] border border-slate-200/80 bg-[#EFF7FF] p-5 shadow-[0_22px_50px_rgba(37,41,70,0.08)]">
-                <div className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-white via-[#F5FAFF] to-[#E6F5FF] p-5">
-                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]">
-                    <svg viewBox="0 0 360 320" className="h-full w-full">
-                      <path
-                        d="M96 280 V90 C96 60 190 50 235 92 C280 134 246 184 190 174 C238 182 260 220 238 250 C216 280 148 270 128 250"
-                        fill="none"
-                        stroke="#A9D8FF"
-                        strokeWidth="28"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M112 138 C150 118 208 118 220 150 C232 182 194 194 166 180"
-                        fill="none"
-                        stroke="#D8EEFF"
-                        strokeWidth="12"
-                        strokeLinecap="round"
-                        strokeDasharray="16 12"
-                      />
-                      <circle cx="98" cy="90" r="8" fill="#64B5F6" />
-                      <circle cx="220" cy="150" r="8" fill="#64B5F6" />
-                      <circle cx="176" cy="184" r="8" fill="#64B5F6" />
-                    </svg>
-                  </div>
-                  <div className="relative flex h-[280px] items-center justify-center">
-                    <span className="font-display text-[10rem] font-extrabold text-[#B7E0FF] opacity-90 leading-none">
-                      Б
-                    </span>
-                    <span className="absolute left-10 top-16 inline-flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_18px_32px_rgba(37,41,70,0.12)]">
-                      <Pencil className="h-6 w-6 text-sky-600" />
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-6 overflow-x-auto pb-2">
-                  <div className="flex gap-3 px-1">
-                    {tracingLetters.map((letter) => (
-                      <button
-                        key={letter}
-                        className={`inline-flex min-w-[3rem] items-center justify-center rounded-full border px-4 py-3 text-sm font-semibold transition ${
-                          letter === selectedTracingLetter
-                            ? "border-transparent bg-[#64B5F6] text-white shadow-[0_14px_30px_rgba(100,181,246,0.35)]"
-                            : "border-white/70 bg-white/80 text-slate-700 shadow-sm hover:bg-slate-100"
-                        }`}
-                      >
-                        {letter}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-10 rounded-[2rem] border border-white/80 bg-white/85 p-6 shadow-[0_20px_50px_rgba(37,41,70,0.08)] sm:p-8">
-              <div className="mx-auto max-w-3xl text-center">
-                <p className="inline-flex rounded-full border border-slate-300/80 bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700 shadow-sm">
-                  Награди
-                </p>
-                <h3 className="mt-4 font-display text-3xl font-extrabold text-slate-950 sm:text-4xl">
-                  Собирај значки 🏆
-                </h3>
-                <p className="mx-auto mt-3 max-w-2xl text-base leading-8 text-slate-600">
-                  Со секоја научена буква се отклучуваат нови награди и изненадувања.
-                </p>
-              </div>
-
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {tracingRewards.map((reward) => (
-                  <div key={reward.title} className="rounded-[1.75rem] bg-[#F3F7FF] p-4 shadow-[0_10px_24px_rgba(37,41,70,0.08)]">
-                    <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#E0F2FF] text-[#2563EB] shadow-sm">
-                      <span className="text-lg">⭐</span>
+                        <div className="mt-auto pt-6">
+                          <div className="overflow-hidden rounded-full bg-white/70 p-1.5 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)]">
+                            <div
+                              className="h-2.5 rounded-full transition-all duration-300"
+                              style={{
+                                width: reward.unlocked ? "100%" : "48%",
+                                background: reward.iconBg,
+                              }}
+                            />
+                          </div>
+                          <p className="mt-3 text-sm font-bold text-[#5C7190]">
+                            {reward.unlocked ? "Наградата е освоена" : "Скоро е подготвена за отклучување"}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <h4 className="font-semibold text-slate-900">{reward.title}</h4>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{reward.detail}</p>
-                  </div>
+                  </article>
                 ))}
               </div>
             </div>
           </section>
+
+          <BusavaTragaGameSection />
+
+          <section className="mt-8 overflow-hidden rounded-[2.5rem] border border-white/70 bg-[linear-gradient(135deg,#6A0F3D_0%,#1B4B91_55%,#63C5FF_100%)] p-6 text-white shadow-[0_30px_80px_rgba(37,41,70,0.16)] sm:p-8 lg:p-10">
+            <div className="relative">
+              <div className="pointer-events-none absolute -left-8 -top-8 h-28 w-28 rounded-full bg-white/12 blur-2xl" />
+              <div className="pointer-events-none absolute -bottom-10 right-0 h-36 w-36 rounded-full bg-[#FFD86C]/25 blur-3xl" />
+
+              <div className="relative mx-auto max-w-3xl text-center">
+                <p className="inline-flex rounded-full border border-white/25 bg-white/12 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/90 shadow-sm">
+                  Следен чекор
+                </p>
+                <h3 className="mt-4 font-display text-3xl font-extrabold sm:text-4xl">
+                  Спремен за првата трага?
+                </h3>
+                <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-white/82 sm:text-lg">
+                  Избери буква, слушни ја и започни со првата бушава патека низ македонската азбука.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("tracing")}
+                  className="mt-8 inline-flex min-h-[58px] items-center justify-center gap-3 rounded-full bg-white px-7 py-3.5 text-base font-extrabold text-[#123E74] shadow-[0_20px_40px_rgba(0,0,0,0.16)] transition-transform hover:-translate-y-1"
+                >
+                  Оди на играта
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </section>
         </div>
+
+        <footer className="px-5 pb-10 pt-2 sm:px-8 lg:px-[140px] lg:pr-[140px]">
+          <div className="rounded-[2rem] border border-white/70 bg-white/72 px-6 py-5 shadow-[0_20px_50px_rgba(37,41,70,0.08)] backdrop-blur-xl">
+            <div className="flex flex-col gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+              <Link to="/" className="inline-flex items-center justify-center gap-3 sm:justify-start">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-[16px] bg-white shadow-[0_12px_24px_rgba(37,41,70,0.10)]">
+                  <PawPrint className="h-5 w-5 text-[#FF6B35]" strokeWidth={2.3} />
+                </span>
+                <span className="font-display text-[1.5rem] font-extrabold leading-none tracking-[-0.03em]">
+                  <span className="text-[#002B5B]">Бушава</span>{" "}
+                  <span className="text-[#6A0F3D]">Трага</span>
+                </span>
+              </Link>
+
+              <div className="text-sm font-bold text-[#5C6980]">
+                <p>© 2026 Бушава Азбука</p>
+                <p className="mt-1">Направено со многу боја, игра и бушави букви.</p>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </main>
   );

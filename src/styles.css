@@ -312,6 +312,69 @@
     will-change: transform;
   }
 
+  @keyframes hero-illustration-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+  .hero-illustration {
+    animation: hero-illustration-float 6s ease-in-out infinite;
+    filter:
+      drop-shadow(0 20px 38px rgba(32, 33, 56, 0.18))
+      drop-shadow(0 10px 20px rgba(255, 194, 59, 0.18));
+    transition: filter 220ms ease;
+    will-change: transform, filter;
+  }
+  .group:hover .hero-illustration {
+    filter:
+      drop-shadow(0 24px 44px rgba(32, 33, 56, 0.22))
+      drop-shadow(0 12px 24px rgba(255, 194, 59, 0.2));
+  }
+
+  @keyframes trace-letter-swap-in {
+    0% {
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  .trace-letter-swap {
+    animation: trace-letter-swap-in 320ms ease-out;
+  }
+
+  @keyframes trace-active-letter-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  .trace-active-letter {
+    animation: trace-active-letter-float 4.6s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes trace-guide-dash {
+    from {
+      stroke-dashoffset: 0;
+    }
+    to {
+      stroke-dashoffset: -180;
+    }
+  }
+  .trace-guide-path {
+    animation: trace-guide-dash 6s linear infinite;
+  }
+
   .busava-traga-page .background-decorations {
     position: absolute;
     inset: 0;
