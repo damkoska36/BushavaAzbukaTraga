@@ -9,8 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as BusavaTragaRouteImport } from './routes/busava-traga'
 import { Route as IndexRouteImport } from './routes/index'
 
+const BusavaTragaRoute = BusavaTragaRouteImport.update({
+  id: '/busava-traga',
+  path: '/busava-traga',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +25,39 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/busava-traga': typeof BusavaTragaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/busava-traga': typeof BusavaTragaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/busava-traga': typeof BusavaTragaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/busava-traga'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/busava-traga'
+  id: '__root__' | '/' | '/busava-traga'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BusavaTragaRoute: typeof BusavaTragaRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/busava-traga': {
+      id: '/busava-traga'
+      path: '/busava-traga'
+      fullPath: '/busava-traga'
+      preLoaderRoute: typeof BusavaTragaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BusavaTragaRoute: BusavaTragaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
